@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Test Data Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-800 text-white p-6 flex-shrink-0">
+        <h2 class="text-2xl font-bold mb-6">Prompt Templates</h2>
+        <ul class="space-y-3">
+            <li><button onclick="setPrompt('banking')" class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded">Banking Customers</button></li>
+            <li><button onclick="setPrompt('healthcare')" class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded">Healthcare Companies</button></li>
+            <li><button onclick="setPrompt('transactions')" class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded">Transactions</button></li>
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-1 p-8 overflow-auto">
+        <h1 class="text-3xl font-bold mb-4">AI Test Data Generator</h1>
+
+        <!-- Prompt input -->
+        <label class="block font-medium mb-1">Enter Prompt</label>
+        <textarea id="prompt" class="w-full border rounded-lg p-3 mb-4 h-32"></textarea>
+
+        <div class="flex space-x-4 items-center mb-4">
+            <label>Output format:</label>
+            <select id="output_format" class="border rounded p-2">
+                <option value="text">Text</option>
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+            </select>
+            <button onclick="generateData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Generate</button>
+            <button onclick="downloadJSON()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Download JSON</button>
+            <button onclick="downloadCSV()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">Download CSV</button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex space-x-4 border-b mb-4">
+            <button id="tab-json" class="tab-btn font-semibold py-2 px-4 border-b-2 border-blue-600" onclick="showTab('json')">JSON</button>
+            <button id="tab-table" class="tab-btn font-semibold py-2 px-4 border-b-2 border-transparent hover:border-gray-400" onclick="showTab('table')">Table</button>
+            <button id="tab-preview" class="tab-btn font-semibold py-2 px-4 border-b-2 border-transparent hover:border-gray-400" onclick="showTab('preview')">Preview</button>
+        </div>
+
+        <!-- Output -->
+        <div id="output-json" class="bg-gray-900 text-green-400 p-4 rounded h-80 overflow-auto whitespace-pre-wrap"></div>
+        <table id="output-table" class="hidden table-auto border-collapse border border-gray-400 w-full text-left"></table>
+        <div id="output-preview" class="hidden bg-white p-4 rounded h-80 overflow-auto"></div>
+    </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

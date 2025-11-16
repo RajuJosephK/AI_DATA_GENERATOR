@@ -1,0 +1,17 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+textarea:focus, select:focus, button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 6px;
+}
+
+table th {
+    background-color: #f3f3f3;
+}

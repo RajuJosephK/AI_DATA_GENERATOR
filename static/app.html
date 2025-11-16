@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Test Data Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+
+<div class="max-w-5xl mx-auto mt-10 p-6">
+    
+    <h1 class="text-3xl font-bold mb-6">AI Test Data Generator</h1>
+
+    <!-- Prompt Box -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <label class="font-semibold text-lg">Enter Prompt</label>
+        <textarea id="prompt" class="w-full border rounded p-3 h-40 mt-2"></textarea>
+
+        <!-- Preset Buttons -->
+        <div class="mt-4 space-x-2">
+            <button onclick="preset(1)" class="px-3 py-2 bg-blue-500 text-white rounded">Banking Customers</button>
+            <button onclick="preset(2)" class="px-3 py-2 bg-green-600 text-white rounded">Healthcare Companies</button>
+            <button onclick="preset(3)" class="px-3 py-2 bg-purple-600 text-white rounded">Transactions</button>
+        </div>
+
+        <!-- Format Dropdown -->
+        <div class="mt-4">
+            <label class="font-semibold">Output Format:</label>
+            <select id="format" class="border p-2 rounded ml-2">
+              <option value="json">JSON</option>
+              <option value="csv">CSV</option>
+              <option value="text">Text</option>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4">
+          <button onclick="generate()" class="px-4 py-2 bg-black text-white rounded">Generate</button>
+        </div>
+    </div>
+
+    <!-- Output Panel -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="font-bold text-xl mb-3">Output</h2>
+        <pre id="output" class="bg-gray-900 text-green-400 p-4 rounded h-80 overflow-auto">No data yet...</pre>
+    </div>
+</div>
+
+<script>
+
+function preset(type) {
+    const p = document.getElementById("prompt");
+
+    if (type === 1) {
+        p.value = `Generate 20 UK banking customers with:
+- name
+- email
+- phone
+- address
+- credit score
+- balance
+Return JSON only.`;
+    }
+
+    if (type === 2) {
+        p.value = `List 10 healthcare companies with revenue between $5B and $10B.
+Return JSON: name, location, revenue_2024.`;
+    }
+
+    if (type === 3) {
+        p.value = `Generate 50 fake transactions:
+- id
+- timestamp
+- merchant
+- amount
+Return JSON array.`;
+    }
+}
+
+async function generate() {
+    document.getElementById("output").innerText = "Generating...";
+
+    const prompt = document.getElementById("prompt").value;
+    const format = document.getElementById("format").value;
+
+    const res = await fetch("/generate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ prompt, format })
+    });
+
+    // CSV download handler
+    if (format === "csv") {
+        const blob = await res.blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "data.csv";
+        link.click();
+        document.getElementById("output").innerText = "CSV downloaded successfully.";
+        return;
+    }
+
+    const text = await res.text();
+    document.getElementById("output").innerText = text;
+}
+
+</script>
+
+</body>
+</html>
