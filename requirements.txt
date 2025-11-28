@@ -19,3 +19,4 @@ pytest==8.3.2
 tqdm==4.66.4
 openai
 flask
+Flask-Cors
